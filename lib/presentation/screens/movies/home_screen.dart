@@ -13,4 +13,36 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
+
+  class _HomeView extends ConsumerStatefulWidget {
+    const _HomeView({super.key});
+
+    @override
+    _HomeViewState<_HomeView> createState() => _HomeViewState();
+  }
+
+  class _HomeViewState extends COnsumerState<_HomeView> {
+
+    @override
+    void initState() {
+      super.initState();
+
+      ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
+    }
+
+    @override
+    Widget build(BuildContext context) {
+      final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
+
+      return ListView.builder(
+        itemCount: nowPlayingMovies.length,
+        itemBuilder: (context, index) {
+          final movie = nowPlayingMovies[index];
+          return ListTile(
+            title: Text(movie.title),
+          );
+        }
+      );
+    }
+  }
 }
